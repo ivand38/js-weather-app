@@ -22,7 +22,7 @@ function hideLoading() {
 
 export async function getWeather() {
   displayLoading();
-  const apiKey = "P8RKF8G3M362X3ZYFCMZ62HPR";
+  const apiKey = API_SECRET;
   let response = await axios({
     method: "get",
     url:
