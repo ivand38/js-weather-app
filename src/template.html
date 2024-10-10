@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="icon" type="image/x-icon" href="./img/logo-weather.png" />
+    <link rel="stylesheet" href="output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="font-urbanist flex flex-col h-[100%] bg-gradient-to-b from-navy-blue to-blue-500 m-0 p-0"
+  >
+    <header class="bg-opacity-0">
+      <div
+        class="flex flex-row justify-between items-center pt-8 pb-8 pl-14 pr-14 fixed left-0 w-full"
+      >
+        <img src="./img/logo-header.png" alt="logo" class="object-scale-down" />
+        <div class="relative text-gray-600">
+          <input
+            type="search"
+            name="search"
+            placeholder="Search"
+            class="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+            id="search"
+          />
+          <button
+            type="submit"
+            id="submitSearch"
+            class="absolute right-0 top-0 mt-3 mr-4"
+          >
+            <svg
+              class="h-4 w-4 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              version="1.1"
+              id="Capa_1"
+              x="0px"
+              y="0px"
+              viewBox="0 0 56.966 56.966"
+              style="enable-background: new 0 0 56.966 56.966"
+              xml:space="preserve"
+              width="512px"
+              height="512px"
+            >
+              <path
+                d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"
+              />
+            </svg>
+          </button>
+        </div>
+        <a href="https://github.com/ivand38" target="_blank">
+          <img
+            src="./img/github-mark-white.png"
+            alt="github"
+            class="object-scale-down w-8 h-8"
+        /></a>
+      </div>
+    </header>
+    <div id="notFound" class="fixed top-1/2 left-1/2 ml-[-100px] invisible">
+      <img
+        src="./img/notfound.png"
+        alt="404"
+        class="object-scale-down w-40 h-40 justify-center"
+      />
+      <p class="text-white text-3xl font-bold text-center">
+        Location Not Found
+      </p>
+    </div>
+    <div id="loading" class="fixed top-1/2 left-1/2">
+      <svg
+        aria-hidden="true"
+        class="inline w-24 h-24 text-gray-200 animate-spin dark:text-white fill-blue-400"
+        viewBox="0 0 100 101"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+          fill="currentColor"
+        />
+        <path
+          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+          fill="currentFill"
+        />
+      </svg>
+    </div>
+
+    <main
+      class="h-full flex flex-col pt-8 pb-8 pl-16 pr-16 mb-4 mt-20 items-center invisible"
+      id="mainPage"
+    >
+      <h2 class="text-white text-4xl font-bold mb-2" id="cityName">Jakarta</h2>
+      <p class="text-white/80 text-xl font-semibold" id="dateNow">
+        Tuesday, 8 October 2024 | 21:00
+      </p>
+      <div id="weatherInfo" class="flex flex-row items-center mt-6">
+        <img
+          src="./img/partly-cloudy-night.png"
+          alt="weather"
+          class="object-scale-down w-[160px]"
+          id="weatherIconNow"
+        />
+        <div class="flex flex-col ml-6 mr-4">
+          <p class="text-white text-5xl font-bold" id="tempNow">30°C</p>
+          <p class="text-white text-xl font-bold" id="conditionNow">Cloudy</p>
+          <p class="text-white/80 text-xl font-semibold" id="feelsLikeNow">
+            Feels Like 28°C
+          </p>
+        </div>
+        <div
+          class="grid grid-cols-2 grid-rows-2 gap-6 ml-6"
+          id="weatherDetails"
+        >
+          <div class="flex flex-col items-start">
+            <p class="text-white text-xl font-bold">Wind Speed</p>
+            <p class="text-white/80 text-lg font-semibold" id="windSpeed">
+              4.5 m/s
+            </p>
+          </div>
+          <div class="flex flex-col items-start">
+            <p class="text-white text-xl font-bold">Humidity</p>
+            <p class="text-white/80 text-lg font-semibold" id="humidity">
+              68.1%
+            </p>
+          </div>
+          <div class="flex flex-col items-start">
+            <p class="text-white text-xl font-bold">Precipitation</p>
+            <p class="text-white/80 text-lg font-semibold" id="precipitation">
+              100%
+            </p>
+          </div>
+          <div class="flex flex-col items-start">
+            <p class="text-white text-xl font-bold">UV Index</p>
+            <p class="text-white/80 text-lg font-semibold" id="uvIndex">8</p>
+          </div>
+        </div>
+      </div>
+      <div id="weeklyForecast" class="flex flex-col mt-16 items-center w-full">
+        <h2 class="text-white text-4xl font-bold">Weekly Forecast</h2>
+        <div id="forecast-text" class="grid grid-cols-3 gap-16 mt-6 w-[40%]">
+          <p class="text-white text-2xl font-bold" id="day1">Monday</p>
+          <div id="forecast-weather" class="flex flex-row items-start">
+            <img
+              src="./img/rain.png"
+              alt="weather"
+              class="object-scale-down w-8 mr-2"
+              id="weatherIcon1Day"
+            />
+            <p class="text-white text-xl font-bold" id="temp1Day">34°C</p>
+          </div>
+          <div id="forecast-humidity" class="flex flex-row">
+            <img
+              src="./img/humidity.png"
+              alt="humidity"
+              class="object-scale-down w-8 mr-2"
+            />
+            <p class="text-white text-xl font-bold" id="humidity1Day">68.7%</p>
+          </div>
+        </div>
+        <hr class="w-[40%] border-white/80 border-solid border-b-2 mt-4" />
+        <div id="forecast-text" class="grid grid-cols-3 gap-16 mt-6 w-[40%]">
+          <p class="text-white text-2xl font-bold" id="day2">Tuesday</p>
+          <div id="forecast-weather" class="flex flex-row items-start">
+            <img
+              src="./img/rain.png"
+              alt="weather"
+              class="object-scale-down w-8 mr-2"
+              id="weatherIcon2Day"
+            />
+            <p class="text-white text-xl font-bold" id="temp2Day">34°C</p>
+          </div>
+          <div id="forecast-humidity" class="flex flex-row">
+            <img
+              src="./img/humidity.png"
+              alt="humidity"
+              class="object-scale-down w-8 mr-2"
+            />
+            <p class="text-white text-xl font-bold" id="humidity2Day">68.7%</p>
+          </div>
+        </div>
+        <hr class="w-[40%] border-white/80 border-solid border-b-2 mt-4" />
+        <div id="forecast-text" class="grid grid-cols-3 gap-16 mt-6 w-[40%]">
+          <p class="text-white text-2xl font-bold" id="day3">Wednesday</p>
+          <div id="forecast-weather" class="flex flex-row">
+            <img
+              src="./img/rain.png"
+              alt="weather"
+              class="object-scale-down w-8 mr-2"
+              id="weatherIcon3Day"
+            />
+            <p class="text-white text-xl font-bold" id="temp3Day">34°C</p>
+          </div>
+          <div id="forecast-humidity" class="flex flex-row">
+            <img
+              src="./img/humidity.png"
+              alt="humidity"
+              class="object-scale-down w-8 mr-2"
+            />
+            <p class="text-white text-xl font-bold" id="humidity3Day">68.7%</p>
+          </div>
+        </div>
+        <hr class="w-[40%] border-white/80 border-solid border-b-2 mt-4" />
+        <div id="forecast-text" class="grid grid-cols-3 gap-16 mt-6 w-[40%]">
+          <p class="text-white text-2xl font-bold" id="day4">Thursday</p>
+          <div id="forecast-weather" class="flex flex-row">
+            <img
+              src="./img/rain.png"
+              alt="weather"
+              class="object-scale-down w-8 mr-2"
+              id="weatherIcon4Day"
+            />
+            <p class="text-white text-xl font-bold" id="temp4Day">34°C</p>
+          </div>
+          <div id="forecast-humidity" class="flex flex-row">
+            <img
+              src="./img/humidity.png"
+              alt="humidity"
+              class="object-scale-down w-8 mr-2"
+            />
+            <p class="text-white text-xl font-bold" id="humidity4Day">68.7%</p>
+          </div>
+        </div>
+        <hr class="w-[40%] border-white/80 border-solid border-b-2 mt-4" />
+        <div id="forecast-text" class="grid grid-cols-3 gap-16 mt-6 w-[40%]">
+          <p class="text-white text-2xl font-bold" id="day5">Friday</p>
+          <div id="forecast-weather" class="flex flex-row">
+            <img
+              src="./img/rain.png"
+              alt="weather"
+              class="object-scale-down w-8 mr-2"
+              id="weatherIcon5Day"
+            />
+            <p class="text-white text-xl font-bold" id="temp5Day">34°C</p>
+          </div>
+          <div id="forecast-humidity" class="flex flex-row">
+            <img
+              src="./img/humidity.png"
+              alt="humidity"
+              class="object-scale-down w-8 mr-2"
+            />
+            <p class="text-white text-xl font-bold" id="humidity5Day">68.7%</p>
+          </div>
+        </div>
+        <hr class="w-[40%] border-white/80 border-solid border-b-2 mt-4" />
+        <div id="forecast-text" class="grid grid-cols-3 gap-16 mt-6 w-[40%]">
+          <p class="text-white text-2xl font-bold" id="day6">Saturday</p>
+          <div id="forecast-weather" class="flex flex-row">
+            <img
+              src="./img/rain.png"
+              alt="weather"
+              class="object-scale-down w-8 mr-2"
+              id="weatherIcon6Day"
+            />
+            <p class="text-white text-xl font-bold" id="temp6Day">34°C</p>
+          </div>
+          <div id="forecast-humidity" class="flex flex-row">
+            <img
+              src="./img/humidity.png"
+              alt="humidity"
+              class="object-scale-down w-8 mr-2"
+            />
+            <p class="text-white text-xl font-bold" id="humidity6Day">68.7%</p>
+          </div>
+        </div>
+        <hr class="w-[40%] border-white/80 border-solid border-b-2 mt-4" />
+        <div id="forecast-text" class="grid grid-cols-3 gap-16 mt-6 w-[40%]">
+          <p class="text-white text-2xl font-bold" id="day7">Sunday</p>
+          <div id="forecast-weather" class="flex flex-row">
+            <img
+              src="./img/rain.png"
+              alt="weather"
+              class="object-scale-down w-8 mr-2"
+              id="weatherIcon7Day"
+            />
+            <p class="text-white text-xl font-bold" id="temp7Day">34°C</p>
+          </div>
+          <div id="forecast-humidity" class="flex flex-row">
+            <img
+              src="./img/humidity.png"
+              alt="humidity"
+              class="object-scale-down w-8 mr-2"
+            />
+            <p class="text-white text-xl font-bold" id="humidity7Day">68.7%</p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
